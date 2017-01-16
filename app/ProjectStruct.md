@@ -1,0 +1,11 @@
+＃ 工程说明
+## 工程结构
+* action
+* component
+* constant
+* container
+* page
+* reducer
+* res
+* store
+* util
