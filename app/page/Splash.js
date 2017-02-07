@@ -34,8 +34,8 @@ class Splash extends Component {
             { toValue:1.2, duration: 10000 }
         ).start();
         this.timer = setTimeout(() => {
-            // 跳转到tabbar
-            routes.tabbar();
+            // 跳转到tabBar
+            routes.tabBar();
         }, 1000);
     }
 

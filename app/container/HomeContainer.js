@@ -25,6 +25,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
+    //绑定Action
     const homeAction = bindActionCreators(homeCreators, dispatch);
     return {
         homeAction

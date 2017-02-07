@@ -50,7 +50,6 @@ class Application extends Component {
                 titleStyle={styles.navBarTitle}
                 backButtonImage={backButton}
             >
-
                 <Scene key="root">
                     <Scene
                         key="splash"
@@ -59,7 +58,7 @@ class Application extends Component {
                         hideTabBar
                         initial
                     />
-                    <Scene key="tabbar" tabs pressOpacity={0.8} type={ActionConst.REPLACE}>
+                    <Scene key="tabBar" tabs pressOpacity={0.8} type={ActionConst.REPLACE}>
                         <Scene
                             key="home"
                             component={HomeContainer}
@@ -74,7 +73,7 @@ class Application extends Component {
                             hideNavBar
                             title="患者"
                             icon={TabIcon}
-                            iconName="md-patient"
+                            iconName="md-sad"
                         />
                         <Scene
                             key="mine"
@@ -82,7 +81,7 @@ class Application extends Component {
                             hideNavBar
                             title="我"
                             icon={TabIcon}
-                            iconName="md-mine"
+                            iconName="md-sad"
                         />
                     </Scene>
                 </Scene>
