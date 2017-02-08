@@ -12,10 +12,15 @@ import {
     Dimensions
 } from 'react-native';
 
-import ViewPager from 'react-native-viewpager'
-import GridView from 'react-native-gridview'
+import ViewPager from 'react-native-viewpager';
+import GridView from 'react-native-gridview';
 
 var deviceWidth = Dimensions.get('window').width;
+
+var shortcutIconPhone = require('../res/img/shortcut_icon_phone.png');
+var iconHotNews = require('../res/img/icon_hot_news.png');
+var iconMore = require('../res/img/icon_more.png');
+
 var IMGS = [
     'https://images.unsplash.com/photo-1441742917377-57f78ee0e582?h=1024',
     'https://images.unsplash.com/photo-1441716844725-09cedc13a4e7?h=1024',
@@ -25,10 +30,6 @@ var IMGS = [
     'https://images.unsplash.com/photo-1440964829947-ca3277bd37f8?h=1024',
     'https://images.unsplash.com/photo-1440847899694-90043f91c7f9?h=1024'
 ];
-
-var shortcutIconPhone = require('../res/img/shortcut_icon_phone.png')
-var iconHotNews = require('../res/img/icon_hot_news.png')
-
 var SHORTCUT = [
     {
         type: 0,
@@ -61,7 +62,26 @@ var SHORTCUT = [
         icon_state_0: shortcutIconPhone,
         icon_state_1: shortcutIconPhone,
     }
-]
+];
+var HOT_NEWS = [
+    {
+        title: '热点新闻',
+        summary: '我是摘要',
+        imgUrl: 'https://images.unsplash.com/photo-1440847899694-90043f91c7f9?h=1024'
+    },
+    {
+        title: '热点新闻',
+        summary: '我是摘要',
+        imgUrl: 'https://images.unsplash.com/photo-1440847899694-90043f91c7f9?h=1024'
+    },
+    {
+        title: '热点新闻',
+        summary: '我是摘要',
+        imgUrl: 'https://images.unsplash.com/photo-1440847899694-90043f91c7f9?h=1024'
+    }
+];
+
+
 
 class Home extends React.Component {
 
@@ -73,9 +93,13 @@ class Home extends React.Component {
         var shortcutDataSource = new GridView.DataSource({
             rowHasChanged: (r1, r2) => r1 != r2,
         })
+        var hotNewsDataSource = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 != r2,
+        })
         this.state = {
             bannerDataSource: bannerDataSource.cloneWithPages(IMGS),
-            shortcutDataSource: shortcutDataSource.cloneWithRows(SHORTCUT)
+            shortcutDataSource: shortcutDataSource.cloneWithRows(SHORTCUT),
+            hotNewsDataSource: hotNewsDataSource.cloneWithRows(HOT_NEWS)
         };
     }
 
@@ -114,6 +138,7 @@ class Home extends React.Component {
     _renderShortcut() {
         return (
             <GridView
+                style={{borderWidth:2}}
                 data={SHORTCUT}
                 itemsPerRow={4}
                 renderItem={(item, sectionID, rowID, itemIndex, itemID) => {
@@ -141,7 +166,12 @@ class Home extends React.Component {
                 <Image
                     source={iconHotNews}
                     style={styles.hotNewsIcon}/>
-                <Text style={styles.hotNewsTxt}>热点新闻</Text>
+                <Text style={styles.hotNewsHeaderTxt}>热点新闻</Text>
+                <View style={styles.hotNewsMore}>
+                    <Image
+                        source={iconMore}
+                        style={styles.hotNewsIcon}/>
+                </View>
             </View>
         )
     }
@@ -149,8 +179,20 @@ class Home extends React.Component {
     _renderHotNewsList() {
         return (
             <ListView
+                dataSource={this.state.hotNewsDataSource}
                 renderRow={(rowData) => {
-
+                    return (
+                        <View style={styles.hotNewsItem}>
+                            <View style={styles.hotNewsItemDesc}>
+                                <Text style={styles.hotNewsItemTitle}>{rowData.title}</Text>
+                                <Text style={styles.hotNewsItemSummary}>{rowData.summary}</Text>
+                            </View>
+                            <Image
+                                source={{uri: rowData.imgUrl}}
+                                style={styles.hotNewsIcon}
+                            />
+                        </View>
+                    )
                 }}
             />
         )
@@ -175,6 +217,7 @@ const styles = StyleSheet.create({
     shortcut: {
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 2,
     },
     shortcutIcon: {
         width: 32,
@@ -191,15 +234,41 @@ const styles = StyleSheet.create({
         color: '#000'
     },
     hotNewsHeader: {
-        flexDirection: 'row'
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+    hotNewsMore: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     },
     //热点新闻图片
     hotNewsIcon: {
         width: 32,
         height: 32
     },
-    hotNewsTxt: {
+    hotNewsHeaderTxt: {
         fontSize: 16,
+    },
+    hotNewsItem: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    hotNewsItemDesc: {
+        width: deviceWidth / 4 * 3,
+        flexDirection: 'column',
+    },
+    hotNewsItemTitle: {
+        fontSize: 16,
+    },
+    hotNewsItemSummary: {
+        fontSize: 14,
     }
 });
 
